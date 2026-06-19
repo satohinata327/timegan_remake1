@@ -246,3 +246,70 @@ python3 timegan_remake1/scripts/evaluate_with_mahalanobis.py \
   --mahalanobis-script timegan_remake1/mahalanobis_eval/scripts/run_mahalanobis_eval.py \
   --train-csv timegan_remake1/data/train_sp500_us10y.csv
 ```
+
+## 追加実験: abs autocorr + correlation + tail loss
+
+`seq60_abs_ac_corr` 系の実験では、`cross_corr` は改善した一方で、`rolling_corr_std_60`、条件付き相関、DGS10 tailがまだ弱かった。
+
+次の叩き台として、tail quantile lossを追加したスクリプトを用意している。
+
+この実験では、安定性を優先してtail quantileは以下のみを使う。
+
+```text
+Q = {0.05, 0.95}
+```
+
+tail lossは、元スケールへ戻した実データ・生成データをmini-batch内でflattenし、各資産の5%点・95%点を近づける。
+
+```text
+L_tail =
+mean_j mean_{q in {0.05, 0.95}}
+[
+  (Quantile(r_hat_j, q) - Quantile(r_j, q)) / std_j
+]^2
+```
+
+ここで `std_j` は学習データ全体における各資産の標準偏差である。
+
+設定は以下。
+
+```json
+"abs_autocorr_loss_weight": 5.0,
+"cross_corr_loss_weight": 10.0,
+"rolling_corr_std_loss_weight": 1.0,
+"tail_quantile_loss_weight": 5.0
+```
+
+### 学習
+
+```bash
+python3 timegan_remake1/scripts/train_timegan_abs_ac_corr_tail.py \
+  --config timegan_remake1/config/timegan_seq60_abs_ac_corr_tail5.json
+```
+
+学習済みモデルは以下に保存される。
+
+```text
+timegan_remake1/runs/seq60_abs_ac_corr_tail5/models/timegan_abs_ac_corr_tail.pt
+```
+
+### 生成
+
+```bash
+python3 timegan_remake1/scripts/generate_timegan.py \
+  --config timegan_remake1/config/timegan_seq60_abs_ac_corr_tail5.json \
+  --checkpoint timegan_remake1/runs/seq60_abs_ac_corr_tail5/models/timegan_abs_ac_corr_tail.pt \
+  --scaler timegan_remake1/runs/seq60_abs_ac_corr_tail5/data/scaler.json \
+  --output-dir timegan_remake1/runs/seq60_abs_ac_corr_tail5
+```
+
+### Mahalanobis評価
+
+```bash
+python3 timegan_remake1/scripts/evaluate_with_mahalanobis.py \
+  --generated-dir timegan_remake1/runs/seq60_abs_ac_corr_tail5/generated \
+  --work-mask-dir timegan_remake1/runs/seq60_abs_ac_corr_tail5/evaluation/mahalanobis_input \
+  --output-dir timegan_remake1/runs/seq60_abs_ac_corr_tail5/evaluation/mahalanobis_results \
+  --mahalanobis-script timegan_remake1/mahalanobis_eval/scripts/run_mahalanobis_eval.py \
+  --train-csv timegan_remake1/data/train_sp500_us10y.csv
+```
