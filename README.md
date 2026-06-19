@@ -181,3 +181,68 @@ python3 timegan_remake1/scripts/evaluate_with_mahalanobis.py \
 - `dgs10_abs_autocorr_lag20`
 
 特に原因分析で強く出ていた `sp500_abs_autocorr_lag5` が改善するかが重要です。
+
+## 追加実験: abs autocorr + correlation losses
+
+`seq60_abs_ac` の結果では、絶対リターン自己相関は改善した一方で、`cross_corr` が約 `0.99` まで上がり、2資産が過度に同調した。
+
+そのため、次の叩き台として以下のlossも追加したスクリプトを用意している。
+
+```text
+L_G_total
+= baseline TimeGAN loss
++ lambda_abs_ac * L_abs_ac
++ lambda_cross * L_cross
++ lambda_rollcorr * L_rolling_corr_std
+```
+
+追加する相関lossは以下である。
+
+```text
+L_cross =
+(Corr(sp500_hat, DGS10_hat) - Corr(sp500, DGS10))^2
+```
+
+`rolling_corr_std_60` については、学習時の `seq_len=60` に合わせて、各mini-batch内の60日windowごとの相関を計算し、その標準偏差を実データwindow側に近づける。
+
+```text
+L_rolling_corr_std =
+(Std_b(Corr_60(sp500_hat_b, DGS10_hat_b))
+ - Std_b(Corr_60(sp500_b, DGS10_b)))^2
+```
+
+ここで `b` はmini-batch内のwindowを表す。
+
+### 学習
+
+```bash
+python3 timegan_remake1/scripts/train_timegan_abs_ac_corr.py \
+  --config timegan_remake1/config/timegan_seq60_abs_ac_corr.json
+```
+
+学習済みモデルは以下に保存される。
+
+```text
+timegan_remake1/runs/seq60_abs_ac_corr/models/timegan_abs_ac_corr.pt
+```
+
+### 生成
+
+```bash
+python3 timegan_remake1/scripts/generate_timegan.py \
+  --config timegan_remake1/config/timegan_seq60_abs_ac_corr.json \
+  --checkpoint timegan_remake1/runs/seq60_abs_ac_corr/models/timegan_abs_ac_corr.pt \
+  --scaler timegan_remake1/runs/seq60_abs_ac_corr/data/scaler.json \
+  --output-dir timegan_remake1/runs/seq60_abs_ac_corr
+```
+
+### Mahalanobis評価
+
+```bash
+python3 timegan_remake1/scripts/evaluate_with_mahalanobis.py \
+  --generated-dir timegan_remake1/runs/seq60_abs_ac_corr/generated \
+  --work-mask-dir timegan_remake1/runs/seq60_abs_ac_corr/evaluation/mahalanobis_input \
+  --output-dir timegan_remake1/runs/seq60_abs_ac_corr/evaluation/mahalanobis_results \
+  --mahalanobis-script timegan_remake1/mahalanobis_eval/scripts/run_mahalanobis_eval.py \
+  --train-csv timegan_remake1/data/train_sp500_us10y.csv
+```
