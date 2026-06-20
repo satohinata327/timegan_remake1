@@ -1,0 +1,31 @@
+{
+  "train_csv": "timegan_remake1/data/train_sp500_us10y.csv",
+  "output_dir": "timegan_remake1/runs/seq60_abs_ac_corr_roll2",
+  "seq_len": 60,
+  "stride": 10,
+  "generated_length": 1260,
+  "num_generated": 10,
+  "features": [
+    "sp500",
+    "DGS10"
+  ],
+  "hidden_dim": 24,
+  "num_layers": 2,
+  "batch_size": 128,
+  "pretrain_iterations": 1000,
+  "supervised_iterations": 1000,
+  "joint_iterations": 3000,
+  "learning_rate": 0.001,
+  "noise_dim": 2,
+  "gamma": 1.0,
+  "seed": 42,
+  "device": "auto",
+  "abs_autocorr_lags": [
+    1,
+    5,
+    20
+  ],
+  "abs_autocorr_loss_weight": 10.0,
+  "cross_corr_loss_weight": 10.0,
+  "rolling_corr_std_loss_weight": 2.0
+}

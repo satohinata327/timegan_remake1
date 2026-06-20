@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470">
+<rect width="100%" height="100%" fill="white"/>
+<text x="600.00" y="34" text-anchor="middle" font-size="22" font-family="Arial">Loss candidate priority: seq60, all 20 features</text>
+<text x="600.00" y="58" text-anchor="middle" font-size="13" font-family="Arial" fill="#555">Composite score from mean absolute z-score, positive Mahalanobis contribution, and one-feature repair effect.</text>
+<text x="600.00" y="76" text-anchor="middle" font-size="13" font-family="Arial" fill="#555">This figure is limited to seq60 and shows all 20 Mahalanobis features.</text>
+<line x1="340.00" y1="105" x2="340.00" y2="410" stroke="#e5e5e5"/>
+<text x="340.00" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">0.00</text>
+<line x1="498.00" y1="105" x2="498.00" y2="410" stroke="#e5e5e5"/>
+<text x="498.00" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">0.20</text>
+<line x1="656.00" y1="105" x2="656.00" y2="410" stroke="#e5e5e5"/>
+<text x="656.00" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">0.40</text>
+<line x1="814.00" y1="105" x2="814.00" y2="410" stroke="#e5e5e5"/>
+<text x="814.00" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">0.60</text>
+<line x1="972.00" y1="105" x2="972.00" y2="410" stroke="#e5e5e5"/>
+<text x="972.00" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">0.80</text>
+<line x1="1130.00" y1="105" x2="1130.00" y2="410" stroke="#e5e5e5"/>
+<text x="1130.00" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">1.00</text>
+<text x="735.00" y="456" text-anchor="middle" font-size="13" font-family="Arial">priority_score</text>
+</svg>

@@ -4,8 +4,11 @@ __pycache__/
 .ipynb_checkpoints/
 
 runs/**/models/
+runs/**/generated/
+runs/**/logs/
 
 models/
 
 *.pt
 *.pth
+*.csv

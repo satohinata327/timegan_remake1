@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470">
+<rect width="100%" height="100%" fill="white"/>
+<text x="600.00" y="34" text-anchor="middle" font-size="22" font-family="Arial">Distance reduction when one feature is repaired to reference mean: seq60, all 20 features</text>
+<text x="600.00" y="58" text-anchor="middle" font-size="13" font-family="Arial" fill="#555">Mean change in Mahalanobis distance after replacing one feature with the real-window mean.</text>
+<text x="600.00" y="76" text-anchor="middle" font-size="13" font-family="Arial" fill="#555">This figure is limited to seq60; positive values reduce distance and negative values worsen it.</text>
+<line x1="735.00" y1="100" x2="735.00" y2="418" stroke="#333" stroke-width="1"/>
+<text x="735.00" y="94" text-anchor="middle" font-size="12" font-family="Arial" fill="#333">0</text>
+<line x1="340.00" y1="105" x2="340.00" y2="410" stroke="#e5e5e5"/>
+<text x="340.00" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">-0.00</text>
+<line x1="537.50" y1="105" x2="537.50" y2="410" stroke="#e5e5e5"/>
+<text x="537.50" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">-0.00</text>
+<line x1="932.50" y1="105" x2="932.50" y2="410" stroke="#e5e5e5"/>
+<text x="932.50" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">0.00</text>
+<line x1="1130.00" y1="105" x2="1130.00" y2="410" stroke="#e5e5e5"/>
+<text x="1130.00" y="432" text-anchor="middle" font-size="11" font-family="Arial" fill="#666">0.00</text>
+<text x="735.00" y="456" text-anchor="middle" font-size="13" font-family="Arial">mean_distance_reduction</text>
+</svg>
